@@ -33,8 +33,8 @@ install_package make
 install_package gcc
 
 # 対話型インタープリタが使いやすくなる(なくても動く)
-install_package libbz2-dev 
-install_package libreadline-dev 
+install_package libbz2-dev
+install_package libreadline-dev
 
 
 # ------------------------------------------------------------------
@@ -76,30 +76,20 @@ if [[ $is_virtualenv_path -eq 0 ]]; then
     echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.profile
 fi
 
-is_relazy=`pyenv version | grep relazy3.6.6 | wc -l`
-if [[ $is_relazy -eq 0 ]]; then
+is_test=`pyenv version | grep test3.6.6 | wc -l`
+if [[ $is_test -eq 0 ]]; then
     git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
-    pyenv virtualenv 3.6.6 relazy3.6.6
-    pyenv local relazy3.6.6
+    pyenv virtualenv 3.6.6 test3.6.6
+    pyenv local test3.6.6
     source ~/.profile
 fi
-# ------------------------------------------------------------------
-# --------------pipモジュールのインストール ------------------------
 
-is_pyenv=`pyenv version | grep "relazy3.6.6" | wc -l`
+is_pyenv=`pyenv version | grep "test3.6.6" | wc -l`
 
-using_module=`pip freeze`
-requirements=`cat requirements.txt`
-# 仮想環境がない場合は環境を汚してしまうためインストールを行わない
 if [[ $is_pyenv -eq 1 ]]; then
-    if [[ $using_module == $requirements ]]; then
-        echo "既にモジュールがインストールされています。"
-    else
-        echo "使用モジュールのインストールを行います"
-        pip3 install -r requirements.txt
-    fi
+    echo "pyenvを使用したpythonの仮想環境の作成に成功しました！"
 else
-    echo "仮想環境がうまく作られていないようです。pipモジュールのインストールを行いません"
+    echo "仮想環境がうまく作られていないようです。"
 fi
 
 # -----------終了------------
